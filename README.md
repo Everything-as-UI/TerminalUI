@@ -1,3 +1,3 @@
 # TerminalUI
 
-A description of this package.
+[WIP] Initial attempt to implement a UI library based on CoreUI.

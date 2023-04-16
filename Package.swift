@@ -1,18 +1,17 @@
-// swift-tools-version: 5.6
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version: 5.7
 
 import PackageDescription
 
 let dependencies: [Package.Dependency]
 
-let env = Context.environment["USER"]
-let isDevelop = env == "K-o-D-e-N"
-if isDevelop {
+if Context.environment["ALLUI_ENV"] == "LOCAL" {
     dependencies = [
         .package(name: "CoreUI", path: "../CoreUI"),
     ]
 } else {
-    dependencies = []
+    dependencies = [
+        .package(url: "https://github.com/Everything-as-UI/CoreUI.git", branch: "main")
+    ]
 }
 
 let package = Package(
@@ -24,6 +23,10 @@ let package = Package(
     dependencies: dependencies,
     targets: [
         .systemLibrary(name: "Curses"),
-        .executableTarget(name: "TerminalUI", dependencies: [.product(name: "CoreUI", package: "CoreUI"), "Curses"])
+        .executableTarget(name: "TerminalUI",
+                          dependencies: [
+                            .product(name: "CoreUI", package: "CoreUI"),
+                            "Curses"
+                          ])
     ]
 )
